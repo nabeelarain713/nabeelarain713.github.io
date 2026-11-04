@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muhammad Nabeel | AI Applications Engineer</title>
+<meta property="og:title" content="Muhammad Nabeel | AI Applications Engineer">
+<meta property="og:description" content="AI agents, RAG systems, LLM fine-tuning and production AI applications.">
+<meta property="og:type" content="website">
+<style>:root{color-scheme:light} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<meta name="description" content="Muhammad Nabeel, AI Applications Engineer. AI agents, RAG systems, LLM fine-tuning and production AI applications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one centered column (max 1080px). Hero splits name + thesis | a dark run-trace panel.
+   Work is a stack of "system cards": meta column on the left, story + pipeline + results on the right. */
+:root {
+  --bg: #F2F5F6;
+  --surface: #FFFFFF;
+  --ink: #0F1A21;
+  --muted: #53626B;
+  --rule: #D6DEE2;
+  --accent: #0A676B;
+  --accent-soft: #DCEDEC;
+  --signal: #9C5C00;
+  --trace-bg: #0E181D;
+  --trace-ink: #D3E2E5;
+  --trace-muted: #6F868D;
+  --trace-accent: #46C0BC;
+  --trace-rule: #1F2E35;
+
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-xs: 12.5px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 19px;
+  --fs-xl: 24px;
+  --fs-2xl: 34px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1215;
+    --surface: #111B20;
+    --ink: #E3EBEE;
+    --muted: #92A2A9;
+    --rule: #22313A;
+    --accent: #4CC2BE;
+    --accent-soft: #143130;
+    --signal: #EBA43F;
+    --trace-bg: #070E11;
+    --trace-rule: #1A282E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1215;
+  --surface: #111B20;
+  --ink: #E3EBEE;
+  --muted: #92A2A9;
+  --rule: #22313A;
+  --accent: #4CC2BE;
+  --accent-soft: #143130;
+  --signal: #EBA43F;
+  --trace-bg: #070E11;
+  --trace-rule: #1A282E;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ol, ul, dl, dd { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3 { text-wrap: balance; }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Nav ---------- */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--rule);
+}
+.mark {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: var(--fs-md);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav ul { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.nav a { font-size: var(--fs-sm); color: var(--muted); text-decoration: none; }
+.nav a:hover { color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding-block: 56px 64px;
+}
+.hero-copy { display: flex; flex-direction: column; gap: 22px; min-width: 0; container-type: inline-size; }
+.name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 118%;
+  /* "MUHAMMAD" is 7.7em wide at this width setting, so 12% of the column keeps it inside with room to spare */
+  font-size: clamp(34px, 5.4vw, 64px);
+  font-size: clamp(34px, 12cqi, 82px);
+  white-space: nowrap;
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+.name span { display: block; }
+.role {
+  font-family: var(--display);
+  font-weight: 600;
+  font-stretch: 106%;
+  font-size: var(--fs-xl);
+  line-height: 1.2;
+  color: var(--accent);
+}
+.thesis { font-size: var(--fs-lg); line-height: 1.55; max-width: 34em; }
+.where { font-size: var(--fs-sm); color: var(--muted); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 var(--fs-sm)/1 var(--body);
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); text-decoration: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn.primary:hover { filter: brightness(1.08); }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+}
+.facts div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.facts dt { font-family: var(--display); font-weight: 700; font-stretch: 108%; font-size: var(--fs-lg); line-height: 1.2; }
+.facts dd { font-size: var(--fs-xs); color: var(--muted); line-height: 1.4; }
+
+/* Run trace panel */
+.trace {
+  background: var(--trace-bg);
+  color: var(--trace-ink);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow: hidden;
+  min-width: 0;
+}
+.trace-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--trace-rule);
+  color: var(--trace-muted);
+  font-size: 12px;
+}
+.trace-head strong { color: var(--trace-ink); font-weight: 500; }
+.trace ol { display: flex; flex-direction: column; padding: 8px 0; }
+.trace li {
+  display: grid;
+  grid-template-columns: 14px 2.2em 5.6em minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 9px 18px;
+}
+.trace li + li { border-top: 1px dashed var(--trace-rule); }
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--trace-accent);
+  align-self: center;
+  animation: tick 0.45s ease both;
+  animation-delay: calc(var(--i) * 0.55s + 0.4s);
+}
+@keyframes tick {
+  from { background: var(--trace-muted); transform: scale(0.7); }
+  to { background: var(--trace-accent); transform: scale(1); }
+}
+.trace .n { color: var(--trace-muted); }
+.trace .op { color: var(--trace-accent); }
+.trace .d { color: var(--trace-ink); overflow-wrap: anywhere; }
+.trace .d small { display: block; color: var(--trace-muted); font-size: 12px; }
+.trace-foot {
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--trace-rule);
+  color: var(--trace-muted);
+  font-size: 12px;
+}
+
+/* ---------- Sections ---------- */
+.section { padding-block: 64px; border-top: 1px solid var(--rule); }
+.section-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; max-width: 46em; }
+.section-head h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 110%;
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+}
+.section-head p { color: var(--muted); }
+
+/* Featured case studies */
+.cases { display: flex; flex-direction: column; }
+.case {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 32px;
+  padding-block: 36px;
+  border-top: 1px solid var(--rule);
+}
+.case:first-child { border-top: 0; padding-top: 0; }
+.case-meta { display: flex; flex-direction: column; gap: 4px; font-size: var(--fs-sm); color: var(--muted); }
+.case-meta .org { color: var(--ink); font-weight: 500; }
+.case-meta time { font-family: var(--mono); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.case-meta a { margin-top: 8px; font-family: var(--mono); font-size: var(--fs-xs); }
+.case-body { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.case h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: var(--fs-xl);
+  line-height: 1.2;
+}
+.kicker { font-size: var(--fs-lg); color: var(--muted); line-height: 1.45; margin-top: -8px; }
+.case-body > p { max-width: 40em; }
+
+.flow-wrap { display: flex; flex-direction: column; gap: 8px; }
+.flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.flow li { display: inline-flex; align-items: center; gap: 8px; }
+.flow li:not(:last-child)::after { content: "\2192"; color: var(--muted); font-size: var(--fs-sm); }
+.flow span {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  line-height: 1.3;
+  padding: 6px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.flow li:last-child span { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 500; }
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px 24px;
+}
+.results div { display: flex; flex-direction: column-reverse; gap: 2px; padding-left: 12px; border-left: 2px solid var(--rule); }
+.results dt { font-size: var(--fs-xs); color: var(--muted); line-height: 1.4; }
+.results dd { font-family: var(--display); font-weight: 700; font-stretch: 106%; font-size: 22px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+.stack { display: flex; flex-wrap: wrap; font-family: var(--mono); font-size: var(--fs-xs); color: var(--muted); line-height: 1.7; }
+.stack li + li::before { content: "\00B7"; margin: 0 8px; color: var(--rule); }
+
+/* More work grid */
+.more-head { margin: 48px 0 8px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 48px;
+}
+.item { display: flex; flex-direction: column; gap: 10px; padding-block: 28px; border-top: 1px solid var(--rule); min-width: 0; }
+.item h3 { font-family: var(--display); font-weight: 700; font-stretch: 106%; font-size: var(--fs-lg); line-height: 1.25; }
+.item .meta { font-family: var(--mono); font-size: var(--fs-xs); color: var(--muted); }
+.item .result { font-family: var(--mono); font-size: var(--fs-xs); color: var(--signal); line-height: 1.5; }
+
+/* Research band */
+.band { background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.band .section { border-top: 0; }
+.paper {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.paper-copy { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.paper h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 106%;
+  font-size: var(--fs-xl);
+  line-height: 1.25;
+}
+.badge {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.readouts { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.readouts div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.readouts dt { font-size: var(--fs-sm); color: var(--muted); }
+.readouts dd { font-family: var(--display); font-weight: 800; font-stretch: 110%; font-size: var(--fs-2xl); line-height: 1; font-variant-numeric: tabular-nums; }
+.next-paper { margin-top: 32px; padding-top: 20px; border-top: 1px dashed var(--rule); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+.next-paper .badge { background: transparent; border: 1px solid var(--rule); color: var(--muted); }
+
+/* Skills */
+.skills { border-top: 1px solid var(--rule); }
+.skills div {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 8px 32px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.skills dt { font-weight: 600; font-size: var(--fs-sm); }
+.skills dd { font-size: var(--fs-sm); color: var(--muted); }
+
+/* Experience */
+.timeline { display: flex; flex-direction: column; }
+.job {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 8px 32px;
+  padding-block: 22px;
+  border-top: 1px solid var(--rule);
+}
+.job:first-child { border-top: 0; padding-top: 0; }
+.job time { font-family: var(--mono); font-size: var(--fs-xs); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 4px; }
+.job-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.job h3 { font-size: var(--fs-md); font-weight: 600; line-height: 1.35; }
+.job h3 span { font-weight: 400; color: var(--muted); }
+.job p { font-size: var(--fs-sm); color: var(--muted); max-width: 44em; }
+
+.edu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 48px;
+  margin-top: 48px;
+}
+.edu > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.edu h3 { font-family: var(--display); font-weight: 700; font-stretch: 106%; font-size: var(--fs-lg); }
+.edu p, .edu li { font-size: var(--fs-sm); color: var(--muted); }
+.edu ul { display: flex; flex-direction: column; gap: 6px; }
+.edu strong { color: var(--ink); font-weight: 600; }
+
+/* Contact */
+.contact { display: flex; flex-direction: column; gap: 20px; }
+.contact h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 116%;
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.contact > p { color: var(--muted); max-width: 40em; }
+.contact-rows { border-top: 1px solid var(--rule); max-width: 720px; }
+.contact-rows div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 8px 16px;
+  align-items: center;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.contact-rows dt { font-family: var(--mono); font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.contact-rows dd { font-size: var(--fs-md); overflow-wrap: anywhere; min-width: 0; }
+.copy {
+  font: 500 var(--fs-xs)/1 var(--mono);
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.copy:hover { border-color: var(--accent); }
+
+footer { padding-block: 28px 40px; color: var(--muted); font-size: var(--fs-xs); font-family: var(--mono); border-top: 1px solid var(--rule); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-block: 40px 48px; }
+  .paper { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 760px) {
+  .case, .job, .skills div { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .case-meta { flex-direction: row; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+  .case-meta a { margin-top: 0; }
+  .grid, .edu { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section { padding-block: 48px; }
+}
+@media (max-width: 480px) {
+  .trace li { grid-template-columns: 12px 2em minmax(0, 1fr); }
+  .trace .op { grid-column: 3; }
+  .trace .d { grid-column: 3; }
+  .contact-rows div { grid-template-columns: minmax(0, 1fr) auto; }
+  .contact-rows dt { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="Sections">
+    <a class="mark" href="#top">M. NABEEL</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-copy">
+      <h1 class="name"><span>Muhammad</span><span>Nabeel</span></h1>
+      <p class="role">AI Applications Engineer</p>
+      <p class="thesis">I build AI agents, RAG systems and LLM features that real customers use, from the Python model service to the TypeScript front end. I also fine-tune models, and my research on speech recognition for Sindhi was accepted by IEEE.</p>
+      <p class="where">Islamabad, Pakistan. Open to relocating to Lahore for onsite roles.</p>
+      <div class="actions">
+        <a class="btn primary" href="#work">See my work</a>
+        <a class="btn" href="https://github.com/nabeelarain713" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://linkedin.com/in/nabeelarain713" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+      <dl class="facts">
+        <div><dt>Since 2023</dt><dd>shipping LLM features</dd></div>
+        <div><dt>10+ clients</dt><dd>in 4 countries, 5-star on every project</dd></div>
+        <div><dt>IEEE</dt><dd>accepted paper, iCoMET 2026</dd></div>
+        <div><dt>Python + TS</dt><dd>FastAPI to Next.js</dd></div>
+      </dl>
+    </div>
+
+    <figure class="trace" aria-label="Example run of the video ad evaluation pipeline" style="margin:0">
+      <div class="trace-head"><span>run <strong>video-ad-eval</strong></span><span>example run</span></div>
+      <ol>
+        <li style="--i:0"><span class="dot" aria-hidden="true"></span><span class="n">01</span><span class="op">store</span><span class="d">Upload video ad<small>Google Cloud Storage</small></span></li>
+        <li style="--i:1"><span class="dot" aria-hidden="true"></span><span class="n">02</span><span class="op">analyze</span><span class="d">Read the video's content<small>Video Intelligence API</small></span></li>
+        <li style="--i:2"><span class="dot" aria-hidden="true"></span><span class="n">03</span><span class="op">judge</span><span class="d">Score against creative-quality rubric<small>Gemini as LLM judge</small></span></li>
+        <li style="--i:3"><span class="dot" aria-hidden="true"></span><span class="n">04</span><span class="op">output</span><span class="d">Quality score from 1 to 100%<small>returned to the AdRoom app</small></span></li>
+      </ol>
+      <figcaption class="trace-foot">A pipeline I built for AdRoom by Pixis on Google Cloud.</figcaption>
+    </figure>
+  </header>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="section" id="work" aria-labelledby="work-h">
+      <div class="section-head">
+        <p class="eyebrow">Selected work &middot; 8 projects</p>
+        <h2 id="work-h">AI systems I've built and shipped</h2>
+        <p>Agents, retrieval, fine-tuning and evaluation, running in products that people use.</p>
+      </div>
+
+      <div class="cases">
+        <article class="case">
+          <div class="case-meta">
+            <span class="org">Revonix &middot; client project</span>
+            <time>Jun 2026 &ndash; present</time>
+            <a href="https://adroom.pixis.ai/" target="_blank" rel="noopener">adroom.pixis.ai &#8599;</a>
+          </div>
+          <div class="case-body">
+            <h3>AdRoom by Pixis</h3>
+            <p class="kicker">A generative AI ad platform where brands create ads and publish them straight to Google Ads and Meta Ads.</p>
+            <p>I'm one of two engineers who own the whole product and all of its AI features. The Python (FastAPI) model service runs text-to-image and image-to-video generation, and ElevenLabs voice agents produce the audio for product ads. Heavy jobs run on Celery task queues so the app stays responsive, and one product feed upload turns into hundreds of ad variations in the background.</p>
+            <div class="flow-wrap">
+              <p class="eyebrow">Pipeline</p>
+              <ol class="flow">
+                <li><span>CSV / Excel product feed</span></li>
+                <li><span>Data extraction</span></li>
+                <li><span>Celery batch jobs</span></li>
+                <li><span>Image + video models, ElevenLabs voice</span></li>
+                <li><span>Hundreds of ad variations</span></li>
+              </ol>
+            </div>
+            <dl class="results">
+              <div><dt>engineers own the full product</dt><dd>2</dd></div>
+              <div><dt>ad variations from one feed</dt><dd>Hundreds</dd></div>
+              <div><dt>FastAPI + Celery, Node/Express, React</dt><dd>3 services</dd></div>
+            </dl>
+            <ul class="stack">
+              <li>Python</li><li>FastAPI</li><li>Celery</li><li>Node.js</li><li>Express</li><li>React</li><li>ElevenLabs</li><li>Docker</li><li>Kubernetes (debugging)</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="case-meta">
+            <span class="org">Revonix &middot; AdRoom on GCP</span>
+            <time>2026</time>
+          </div>
+          <div class="case-body">
+            <h3>Video ad evaluation pipeline</h3>
+            <p class="kicker">An LLM judge that scores every video ad against a creative-quality rubric.</p>
+            <p>Each video goes into Google Cloud Storage, the Video Intelligence API analyzes it, and Gemini scores it from 1 to 100% against a creative-quality rubric. I also compare image-to-video models by running the same prompt across several models and video lengths, so we can see which one gives the best output.</p>
+            <div class="flow-wrap">
+              <p class="eyebrow">Pipeline</p>
+              <ol class="flow">
+                <li><span>Video ad</span></li>
+                <li><span>Cloud Storage</span></li>
+                <li><span>Video Intelligence API</span></li>
+                <li><span>Gemini + rubric</span></li>
+                <li><span>Score 1&ndash;100%</span></li>
+              </ol>
+            </div>
+            <dl class="results">
+              <div><dt>score range per video ad</dt><dd>1&ndash;100%</dd></div>
+              <div><dt>evaluator</dt><dd>LLM judge</dd></div>
+            </dl>
+            <ul class="stack">
+              <li>Google Cloud Platform</li><li>Cloud Storage</li><li>Video Intelligence API</li><li>Gemini API</li><li>Python</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="case-meta">
+            <span class="org">Fine-tuning + RAG</span>
+          </div>
+          <div class="case-body">
+            <h3>PakLegalAid</h3>
+            <p class="kicker">A legal AI assistant that pairs a fine-tuned LLM with retrieval over legal documents.</p>
+            <p>I fine-tuned LLaMA-3.2 with parameter-efficient fine-tuning (PEFT) and connected it to a LangChain and FAISS retrieval pipeline, served through a FastAPI API. Retrieval keeps answers grounded in the source documents, and fine-tuning adapts the model to legal language.</p>
+            <div class="flow-wrap">
+              <p class="eyebrow">Pipeline</p>
+              <ol class="flow">
+                <li><span>Legal documents</span></li>
+                <li><span>Chunk + embed</span></li>
+                <li><span>FAISS index</span></li>
+                <li><span>Fine-tuned LLaMA-3.2</span></li>
+                <li><span>Answer via FastAPI</span></li>
+              </ol>
+            </div>
+            <ul class="stack">
+              <li>PyTorch</li><li>Hugging Face Transformers</li><li>PEFT (LoRA / QLoRA)</li><li>LLaMA-3.2</li><li>LangChain</li><li>FAISS</li><li>FastAPI</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="case-meta">
+            <span class="org">SaaS product</span>
+            <time>2024</time>
+          </div>
+          <div class="case-body">
+            <h3>DocuMind AI</h3>
+            <p class="kicker">Multi-tenant document Q&amp;A built on retrieval-augmented generation.</p>
+            <p>People upload PDF, DOCX and TXT files and ask questions about them. The pipeline parses and chunks each file, creates embeddings, and searches MongoDB Atlas Vector Search before the LLM answers. I tuned retrieval to cut irrelevant answers and kept streamed responses under two seconds, with JWT auth, role-based access and Stripe billing.</p>
+            <div class="flow-wrap">
+              <p class="eyebrow">Pipeline</p>
+              <ol class="flow">
+                <li><span>PDF / DOCX / TXT</span></li>
+                <li><span>Parse + chunk</span></li>
+                <li><span>Embeddings</span></li>
+                <li><span>Atlas Vector Search</span></li>
+                <li><span>Streamed LLM answer</span></li>
+              </ol>
+            </div>
+            <dl class="results">
+              <div><dt>less document review time</dt><dd>70%</dd></div>
+              <div><dt>fewer irrelevant answers</dt><dd>45%</dd></div>
+              <div><dt>streamed response time</dt><dd>&lt; 2 s</dd></div>
+            </dl>
+            <ul class="stack">
+              <li>Python</li><li>LangChain</li><li>OpenAI API</li><li>MongoDB Atlas Vector Search</li><li>Node.js</li><li>React</li><li>AWS</li><li>Stripe</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <p class="eyebrow more-head">More work</p>
+      <div class="grid">
+        <article class="item">
+          <p class="meta">University project &middot; 2024</p>
+          <h3>Student support chatbot</h3>
+          <p>A RAG chatbot that answers students around the clock across 200+ query categories, built with LangChain, Gemini 1.5 Pro and FAISS. I measured answer quality on a 500-question benchmark.</p>
+          <p class="result">91% answer relevance &middot; about 60% less staff response load</p>
+          <ul class="stack"><li>LangChain</li><li>Gemini 1.5 Pro</li><li>FAISS</li><li>React</li></ul>
+        </article>
+        <article class="item">
+          <p class="meta">Upwork clients &middot; 2023&ndash;2025</p>
+          <h3>Agentic workflows and RAG chatbots</h3>
+          <p>Agents that decide which tools and APIs to call and chain steps to finish a task, built with LangChain, LangGraph and tool calling and connected to external tools over MCP. RAG chatbots for client businesses cut their support volume by about 30%.</p>
+          <p class="result">10+ clients in 4 countries &middot; 5-star rating on every project</p>
+          <ul class="stack"><li>LangGraph</li><li>LangChain</li><li>MCP</li><li>Tool calling</li><li>FastAPI</li><li>Flask</li></ul>
+        </article>
+        <article class="item">
+          <p class="meta">Sukkur IBA University &middot; 2024&ndash;2026</p>
+          <h3>E-Daftar document AI</h3>
+          <p>A government e-filing platform for Sindh. OCR and GPT-4 Vision read uploaded documents and fill in the file's metadata, so staff no longer type it by hand.</p>
+          <p class="result">40% faster document processing</p>
+          <ul class="stack"><li>OCR</li><li>GPT-4 Vision</li><li>REST APIs</li><li>AWS</li></ul>
+        </article>
+        <article class="item">
+          <p class="meta">Revonix</p>
+          <h3>AI financial assistant</h3>
+          <p>A Next.js assistant that routes each request across Gemini and Groq models and uses Tavily web search to ground answers in current information.</p>
+          <p class="result">Multi-model routing &middot; live web search</p>
+          <ul class="stack"><li>Next.js 14</li><li>Supabase</li><li>Gemini</li><li>Groq</li><li>Tavily</li></ul>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <section class="section" id="research" aria-labelledby="research-h">
+        <div class="section-head">
+          <p class="eyebrow">Research</p>
+          <h2 id="research-h">Fine-tuning for low-resource languages</h2>
+        </div>
+        <div class="paper">
+          <div class="paper-copy">
+            <span class="badge">IEEE-accepted &middot; presented at iCoMET 2026</span>
+            <h3>Enhancing Whisper for Low Resource Sindhi Language</h3>
+            <p>Sindhi has very little labeled speech data, so general speech models handle it poorly. We fine-tuned Whisper-Small with PyTorch and Hugging Face Transformers and cut its error rate by more than 90%.</p>
+            <ul class="stack"><li>Whisper-Small</li><li>PyTorch</li><li>Hugging Face Transformers</li><li>Speech recognition (ASR)</li></ul>
+          </div>
+          <dl class="readouts">
+            <div><dt>Word error rate (WER)</dt><dd>13.25%</dd></div>
+            <div><dt>Character error rate (CER)</dt><dd>4.26%</dd></div>
+            <div><dt>Error reduction after fine-tuning</dt><dd>&gt; 90%</dd></div>
+          </dl>
+        </div>
+        <div class="next-paper">
+          <span class="badge">Under review</span>
+          <p>Paper on parameter-efficient fine-tuning (PEFT) and RAG for legal AI.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="section" id="skills" aria-labelledby="skills-h">
+      <div class="section-head">
+        <p class="eyebrow">Skills</p>
+        <h2 id="skills-h">What I work with</h2>
+      </div>
+      <dl class="skills">
+        <div><dt>AI agents</dt><dd>LangGraph, LangChain, Model Context Protocol (MCP), tool and function calling, multi-step agents, ElevenLabs voice agents</dd></div>
+        <div><dt>RAG and retrieval</dt><dd>Embeddings, chunking, semantic search, FAISS, ChromaDB, MongoDB Atlas Vector Search, document Q&amp;A</dd></div>
+        <div><dt>Fine-tuning and ML</dt><dd>PyTorch, Hugging Face Transformers, LoRA, QLoRA, PEFT, supervised fine-tuning, Whisper, NLP, computer vision, OCR</dd></div>
+        <div><dt>LLMs and generative AI</dt><dd>OpenAI API, Azure OpenAI (Azure AI Foundry), Google Gemini, Groq, LLaMA, prompt engineering, streaming, vision LLMs, text-to-image, image-to-video</dd></div>
+        <div><dt>Evaluation and monitoring</dt><dd>LLM-as-a-judge scoring, RAG evaluation benchmarks, model comparison, production log debugging</dd></div>
+        <div><dt>Backend</dt><dd>Python, FastAPI, Flask, Django REST Framework, Node.js, Express, NestJS, Celery, Redis, REST APIs, microservices, JWT, RBAC</dd></div>
+        <div><dt>Frontend</dt><dd>TypeScript, JavaScript, React, Next.js, Tailwind CSS</dd></div>
+        <div><dt>Data</dt><dd>PostgreSQL, MySQL, MongoDB, Supabase, Prisma, PDF/DOCX parsing, CSV/Excel processing</dd></div>
+        <div><dt>Cloud and deployment</dt><dd>Docker, GitHub Actions CI/CD, AWS (EC2, S3, Lambda), Google Cloud Platform, Azure, Vercel, Kubernetes (debugging)</dd></div>
+      </dl>
+    </section>
+
+    <section class="section" id="experience" aria-labelledby="exp-h">
+      <div class="section-head">
+        <p class="eyebrow">Experience</p>
+        <h2 id="exp-h">Where I've worked</h2>
+      </div>
+      <ol class="timeline">
+        <li class="job">
+          <time>Jun 2026 &ndash; present</time>
+          <div class="job-body">
+            <h3>Full Stack AI Developer <span>&middot; Revonix, Islamabad</span></h3>
+            <p>Build and ship the LLM and generative AI features of AdRoom by Pixis, from the FastAPI model service and Celery jobs to the React front end.</p>
+          </div>
+        </li>
+        <li class="job">
+          <time>Jun 2024 &ndash; May 2026</time>
+          <div class="job-body">
+            <h3>Software Engineer <span>&middot; Sukkur IBA University</span></h3>
+            <p>Built OCR and GPT-4 Vision document processing for E-Daftar and led backend development of eBOR, a land records system for the Board of Revenue Sindh, in NestJS. Set up GitHub Actions CI/CD to AWS, cutting deployment time from 45 to under 18 minutes.</p>
+          </div>
+        </li>
+        <li class="job">
+          <time>Aug 2023 &ndash; Jul 2025</time>
+          <div class="job-body">
+            <h3>Freelance AI Engineer &amp; Full Stack Developer <span>&middot; Upwork</span></h3>
+            <p>Built AI agents, RAG chatbots and FastAPI and Flask APIs that serve NLP and computer vision models for 10+ clients in 4 countries.</p>
+          </div>
+        </li>
+        <li class="job">
+          <time>Apr 2024 &ndash; May 2024</time>
+          <div class="job-body">
+            <h3>Web Developer Intern <span>&middot; Web3gle, Lahore</span></h3>
+            <p>Shipped 2 full stack web applications on schedule.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="edu">
+        <div>
+          <p class="eyebrow">Education</p>
+          <h3>BS Computer Science</h3>
+          <p><strong>Sukkur IBA University</strong> &middot; 2020&ndash;2024 &middot; CGPA 3.52 / 4.00</p>
+          <p>Merit-Based Scholarship, Sindh Endowment Fund Scholarship 2023, PM Laptop Scheme 2023 (top 5% nationwide).</p>
+          <p class="eyebrow" style="margin-top:14px">Teaching</p>
+          <p>Web Development Instructor for the PITP Program and the Enterprise Application Development course at Sukkur IBA University, teaching JavaScript, React and Git.</p>
+        </div>
+        <div>
+          <p class="eyebrow">Certifications</p>
+          <ul>
+            <li><strong>LangChain for LLM Application Development</strong> &middot; DeepLearning.AI</li>
+            <li><strong>Fine-Tuning Large Language Models</strong> &middot; DeepLearning.AI</li>
+            <li><strong>Machine Learning Specialization</strong> &middot; Coursera</li>
+            <li><strong>Data Science Certificate</strong> &middot; Coursera</li>
+            <li><strong>Introduction to MongoDB</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-h">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-h">Get in touch</h2>
+      <p>I'm looking for AI engineering roles where I can build agents, RAG systems and LLM products. I'm based in Islamabad and happy to relocate to Lahore.</p>
+      <dl class="contact-rows">
+        <div>
+          <dt>Email</dt>
+          <dd id="email-text">nabeelarain713@gmail.com</dd>
+          <button class="copy" type="button" id="copy-email" data-copy="nabeelarain713@gmail.com" data-target="email-text">Copy</button>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd id="phone-text">+92-318-4461875</dd>
+          <button class="copy" type="button" id="copy-phone" data-copy="+92-318-4461875" data-target="phone-text">Copy</button>
+        </div>
+        <div>
+          <dt>LinkedIn</dt>
+          <dd><a href="https://linkedin.com/in/nabeelarain713" target="_blank" rel="noopener">linkedin.com/in/nabeelarain713</a></dd>
+          <span></span>
+        </div>
+        <div>
+          <dt>GitHub</dt>
+          <dd><a href="https://github.com/nabeelarain713" target="_blank" rel="noopener">github.com/nabeelarain713</a></dd>
+          <span></span>
+        </div>
+      </dl>
+    </section>
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>Muhammad Nabeel &middot; AI Applications Engineer &middot; Islamabad, Pakistan</footer>
+</div>
+
+<script>
+(function () {
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.getAttribute("data-copy");
+      var label = btn.textContent;
+      function reset(msg, ms) {
+        btn.textContent = msg;
+        setTimeout(function () { btn.textContent = label; }, ms);
+      }
+      function selectText() {
+        var el = document.getElementById(btn.getAttribute("data-target"));
+        if (!el) return;
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        reset("Selected", 2000);
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { reset("Copied", 1600); }, selectText);
+      } catch (e) {
+        selectText();
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
